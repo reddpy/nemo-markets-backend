@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique
+  about                 String                  @unique
+  stage                 String
+  headequarters         String
+  year_founded          String
+  org_logo_url          String?
+  status                OrganizationStatus      @relation(fields: [organizationStatusId], references: [id])
+  organizationStatusId  Int
+  OrganizationInvestors OrganizationInvestors[]
+  portfolio             Portfolio?
+}
+
+model OrganizationStatus {
+  id           Int            @id @default(autoincrement())
+  status       String         @unique
+  Organization Organization[]
+}
+
+model Portfolio {
+  id              Int               @id @default(autoincrement())
+  display_img_url String?
+  description     String
+  portfolio_price Int
+  assets          PortfolioAssets[]
+  organization    Organization      @relation(fields: [organizationId], references: [id])
+  organizationId  Int               @unique // relation scalar field (used in the `@relation` attribute above)
+}
+
+model PortfolioAssets {
+  id           Int        @id @default(autoincrement())
+  name         String
+  category     String
+  stage        String
+  description  String
+  asking_price Int
+  portfolio    Portfolio? @relation(fields: [portfolioId], references: [id])
+  portfolioId  Int?
+}
+
+model Investor {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @unique
+  OrganizationInvestors OrganizationInvestors[]
+}
+
+model OrganizationInvestors {
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
+
+  investor   Investor @relation(fields: [investorId], references: [id])
+  investorId Int
+
+  assignedAt DateTime @default(now())
+
+  @@id([organizationId, investorId])
+}
