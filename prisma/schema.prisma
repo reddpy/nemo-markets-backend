@@ -18,23 +18,16 @@ model Organization {
   headequarters         String
   year_founded          String
   org_logo_url          String?
-  status                OrganizationStatus      @relation(fields: [organizationStatusId], references: [id])
-  organizationStatusId  Int
+  status                String
+  sector                String
   OrganizationInvestors OrganizationInvestors[]
   portfolio             Portfolio?
-}
-
-model OrganizationStatus {
-  id           Int            @id @default(autoincrement())
-  status       String         @unique
-  Organization Organization[]
 }
 
 model Portfolio {
   id              Int               @id @default(autoincrement())
   display_img_url String?
   description     String
-  portfolio_price Int
   assets          PortfolioAssets[]
   organization    Organization      @relation(fields: [organizationId], references: [id])
   organizationId  Int               @unique // relation scalar field (used in the `@relation` attribute above)
