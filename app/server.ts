@@ -31,7 +31,6 @@ fastify.get("/marketplace", async function handler(request, reply) {
   //TODO: get number of assets
   //TODO: get list of types of assets
   //TODO: get portfolio categories from  assets
-  //TODO: add sector to the organization
   const constructed_payload = portfolios.map((portfolio_obj) => {
     return {
       id: portfolio_obj.id,
