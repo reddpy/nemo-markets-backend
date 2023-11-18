@@ -114,22 +114,8 @@ export async function create_organization_data() {
     },
   ];
 
-  organization_data_list.map(async (organization) => {
-    await prisma.organization.upsert({
-      where: {
-        name: organization.name,
-      },
-      update: {},
-      create: {
-        name: organization.name,
-        about: organization.about,
-        stage: organization.stage,
-        headequarters: organization.headquarters,
-        year_founded: organization.year_founded,
-        status: organization.status,
-        sector: organization.sector,
-      },
-    });
+  await prisma.organization.createMany({
+    data: [...organization_data_list],
   });
 
   console.log(`organization records created`);

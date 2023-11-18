@@ -22,16 +22,14 @@ export async function create_investor_data() {
     "Antler",
   ];
 
-  investor_list.map(async (investor) => {
-    await prisma.investor.upsert({
-      where: {
-        name: investor,
-      },
-      update: {},
-      create: {
-        name: investor,
-      },
-    });
+  const investor_map = investor_list.map((investor_str) => {
+    return {
+      name: investor_str,
+    };
+  });
+
+  await prisma.investor.createMany({
+    data: [...investor_map],
   });
 
   console.log(`investor records created`);

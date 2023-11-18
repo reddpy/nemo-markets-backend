@@ -8,11 +8,15 @@ import { create_portfolio_data } from "./portfolio";
 import { create_portfolio_asset_data } from "./portfolio_assets";
 
 async function main() {
-  create_investor_data();
-  create_organization_data();
-  create_org_investors();
-  create_portfolio_data();
-  create_portfolio_asset_data();
+  await create_investor_data();
+  await new Promise((r) => setTimeout(r, 5000));
+  await create_organization_data();
+  await new Promise((r) => setTimeout(r, 5000));
+  await create_org_investors();
+  await new Promise((r) => setTimeout(r, 5000));
+  await create_portfolio_data();
+  await new Promise((r) => setTimeout(r, 5000));
+  await create_portfolio_asset_data();
 }
 
 main()

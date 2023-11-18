@@ -20,18 +20,12 @@ export async function create_portfolio_data() {
       //Olive AI
       display_img_url: "",
       description: "Healthcare Automation and Intelligence Software",
-      organizationId: 2,
+      organizationId: 3,
     },
   ];
 
-  portfolio_data_list.map(async (portfolio) => {
-    await prisma.portfolio.create({
-      data: {
-        display_img_url: portfolio.display_img_url,
-        description: portfolio.description,
-        organizationId: portfolio.organizationId,
-      },
-    });
+  await prisma.portfolio.createMany({
+    data: [...portfolio_data_list],
   });
 
   console.log(`portfolio records created`);
