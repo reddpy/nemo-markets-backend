@@ -15,7 +15,7 @@ model Organization {
   name                  String                  @unique
   about                 String                  @unique
   stage                 String
-  headequarters         String
+  headquarters          String
   year_founded          String
   org_logo_url          String?
   status                String

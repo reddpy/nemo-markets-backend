@@ -77,17 +77,8 @@ export async function create_portfolio_asset_data() {
     },
   ];
 
-  portfolio_asset_data_list.map(async (portfolio_asset) => {
-    await prisma.portfolioAssets.create({
-      data: {
-        name: portfolio_asset.name,
-        category: portfolio_asset.category,
-        stage: portfolio_asset.stage,
-        asking_price: portfolio_asset.asking_price,
-        description: portfolio_asset.description,
-        portfolioId: portfolio_asset.portfolioId,
-      },
-    });
+  await prisma.portfolioAssets.createMany({
+    data: [...portfolio_asset_data_list],
   });
 
   console.log(`portfolio asset records created`);
