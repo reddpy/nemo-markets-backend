@@ -18,7 +18,7 @@ fastify.get(
     console.log("portfolio Id", portfolio_unique_id);
 
     const portfolio = await prisma.portfolio.findFirst({
-      where: { id: 1 }, //TODO: search by unique profile ID added later
+      where: { unique_portfolio_id: portfolio_unique_id },
       include: {
         organization: {
           select: {
@@ -65,6 +65,8 @@ fastify.get(
 
     const constructed_payload = await {
       id: portfolio?.id,
+      portfolio_unique_id: portfolio?.unique_portfolio_id,
+      key_metrics_json: portfolio?.key_metrics_json,
       display_url: display_url,
       description: portfolio?.description,
       company_about: portfolio?.organization.about,
@@ -111,6 +113,7 @@ fastify.get("/marketplace", async function handler(request, reply) {
   const constructed_payload = portfolios.map((portfolio_obj) => {
     return {
       id: portfolio_obj.id,
+      portfolio_unique_id: portfolio_obj.unique_portfolio_id,
       display_url: portfolio_obj.display_img_url
         ? portfolio_obj.display_img_url
         : "https://www.logo.wine/a/logo/WeWork/WeWork-Logo.wine.svg",
