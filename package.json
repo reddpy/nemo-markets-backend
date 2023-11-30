@@ -12,6 +12,8 @@
   "scripts": {
     "start": "nodemon ./app/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "create-db-dev": "sudo npx prisma migrate dev",
+    "open-prisma-studio": "sudo npx prisma studio",
     "seed": "ts-node prisma/seed-data/seed.ts"
   },
   "repository": {
