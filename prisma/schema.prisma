@@ -25,12 +25,14 @@ model Organization {
 }
 
 model Portfolio {
-  id              Int               @id @default(autoincrement())
-  display_img_url String?
-  description     String
-  assets          PortfolioAssets[]
-  organization    Organization      @relation(fields: [organizationId], references: [id])
-  organizationId  Int               @unique // relation scalar field (used in the `@relation` attribute above)
+  id                  Int               @id @default(autoincrement())
+  display_img_url     String?
+  description         String
+  assets              PortfolioAssets[]
+  organization        Organization      @relation(fields: [organizationId], references: [id])
+  organizationId      Int               @unique // relation scalar field (used in the `@relation` attribute above)
+  unique_portfolio_id String            @unique
+  key_metrics_json    Json
 }
 
 model PortfolioAssets {

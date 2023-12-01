@@ -53,7 +53,7 @@ export async function create_organization_data() {
       headquarters: "Other",
       year_founded: "2019",
       org_logo_url: "",
-      status: "Sunsetting",
+      status: "Bankruptcy",
       sector: "Crypto/Web3",
     },
     {
@@ -64,7 +64,7 @@ export async function create_organization_data() {
       headquarters: "Other",
       year_founded: "2012",
       org_logo_url: "",
-      status: "Sunsetting",
+      status: "Bankruptcy",
       sector: "Healthcare",
     },
     {
