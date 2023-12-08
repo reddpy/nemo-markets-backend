@@ -1,12 +1,46 @@
 import { PrismaClient } from "@prisma/client";
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import { USDollar } from "./utils/currency";
+import cors from "@fastify/cors";
 
 const prisma = new PrismaClient();
 
 const fastify = Fastify({
   logger: true,
 });
+
+// Enable CORS for specific routes
+fastify.register(cors, {
+  origin: true, // or set specific origin(s)
+});
+
+interface BodyType {
+  asset_name: string;
+  asset_category: string;
+  asset_stage: string;
+  asset_description: string;
+  asset_price: number;
+}
+
+fastify.post(
+  "/vault",
+  async function handler(
+    request: FastifyRequest<{ Body: BodyType }>,
+    reply: FastifyReply
+  ) {
+    const new_asset = await prisma.portfolioAssets.create({
+      data: {
+        name: request.body.asset_name,
+        category: request.body.asset_category,
+        stage: request.body.asset_stage,
+        description: request.body.asset_description,
+        asking_price: Number(request.body.asset_price),
+        portfolioId: 1, //will have to get by portfolio eventually
+      },
+    });
+    console.log("asset created, fastify", new_asset);
+  }
+);
 
 fastify.get(
   "/portfolio/:portfolio_unique_id",
