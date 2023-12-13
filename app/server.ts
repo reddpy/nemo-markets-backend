@@ -15,6 +15,7 @@ fastify.register(cors, {
 });
 
 interface BodyType {
+  id?: number;
   asset_name: string;
   asset_category: string;
   asset_stage: string;
@@ -23,7 +24,7 @@ interface BodyType {
 }
 
 fastify.post(
-  "/vault",
+  "/vault/asset",
   async function handler(
     request: FastifyRequest<{ Body: BodyType }>,
     reply: FastifyReply
@@ -39,6 +40,22 @@ fastify.post(
       },
     });
     console.log("asset created, fastify", new_asset);
+  }
+);
+
+fastify.delete(
+  "/vault/asset",
+  async function handler(
+    request: FastifyRequest<{ Body: BodyType }>,
+    reply: FastifyReply
+  ) {
+    const asset_to_be_deleted = await prisma.portfolioAssets.delete({
+      where: {
+        id: request.body.id,
+      },
+    });
+
+    console.log("asset deleted, fastify", asset_to_be_deleted);
   }
 );
 
