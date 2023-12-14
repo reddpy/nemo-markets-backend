@@ -43,6 +43,30 @@ fastify.post(
   }
 );
 
+fastify.patch(
+  "/vault/asset",
+  async function handler(
+    request: FastifyRequest<{ Body: BodyType }>,
+    reply: FastifyReply
+  ) {
+    console.log("json load===>", request.body.id);
+    const asset_to_be_updated = await prisma.portfolioAssets.update({
+      where: {
+        id: request.body.id,
+      },
+      data: {
+        name: request.body.asset_name,
+        category: request.body.asset_category,
+        stage: request.body.asset_stage,
+        description: request.body.asset_description,
+        asking_price: request.body.asset_price,
+      },
+    });
+
+    console.log("asset updated, fastify", asset_to_be_updated);
+  }
+);
+
 fastify.delete(
   "/vault/asset",
   async function handler(
