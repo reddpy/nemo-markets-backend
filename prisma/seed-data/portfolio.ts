@@ -6,6 +6,7 @@ type Portfolio = {
   organizationId: number;
   unique_portfolio_id: string;
   key_metrics_json: KeyMetric[];
+  listed: boolean;
 };
 
 type KeyMetric = {
@@ -38,6 +39,7 @@ export async function create_portfolio_data() {
           value: "$180,000",
         },
       ],
+      listed: true,
     },
     {
       //Olive AI
@@ -47,6 +49,7 @@ export async function create_portfolio_data() {
       organizationId: 3,
       unique_portfolio_id: "olive-ai",
       key_metrics_json: [],
+      listed: false,
     },
   ];
 

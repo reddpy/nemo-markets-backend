@@ -168,6 +168,9 @@ fastify.get("/marketplace", async function handler(request, reply) {
   //TODO: add active listed flag to portfolio
   //TODO: add active listed flag to portfolio asset? maybe(talk to cody)
   const portfolios = await prisma.portfolio.findMany({
+    where: {
+      listed: true,
+    },
     include: {
       organization: {
         select: {

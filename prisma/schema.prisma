@@ -34,6 +34,7 @@ model Portfolio {
   organizationId      Int               @unique // relation scalar field (used in the `@relation` attribute above)
   unique_portfolio_id String            @unique
   key_metrics_json    Json
+  listed              Boolean           @default(false)
 }
 
 model PortfolioAssets {
