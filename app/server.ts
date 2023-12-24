@@ -23,6 +23,15 @@ interface BodyType {
   asset_price: number;
 }
 
+interface DeleteBody {
+  category: string;
+  description: string;
+  id: number;
+  name: string;
+  portfolioId: number;
+  stage: string;
+}
+
 interface ListingUpdate {
   market_listing: boolean;
   portfolio_id: number;
@@ -93,14 +102,36 @@ fastify.patch(
 fastify.delete(
   "/vault/asset",
   async function handler(
-    request: FastifyRequest<{ Body: BodyType }>,
+    request: FastifyRequest<{ Body: DeleteBody }>,
     reply: FastifyReply,
   ) {
+    const portfolio = await prisma.portfolio.findUnique({
+      where: {
+        id: request.body.portfolioId,
+      },
+      include: {
+        assets: true,
+      },
+    });
+
+    const portfolio_empty: boolean = portfolio!.assets.length - 1 == 0;
+
     const asset_to_be_deleted = await prisma.portfolioAssets.delete({
       where: {
         id: request.body.id,
       },
     });
+
+    if (portfolio_empty) {
+      await prisma.portfolio.update({
+        where: {
+          id: request.body.portfolioId,
+        },
+        data: {
+          listed: false,
+        },
+      });
+    }
 
     console.log("asset deleted, fastify", asset_to_be_deleted);
   },
